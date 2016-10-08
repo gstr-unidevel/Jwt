@@ -185,8 +185,15 @@ namespace Tmatic.Tims3.WebApi.Jwt
             var decodedCrypto = Convert.ToBase64String(crypto);
             var decodedSignature = Convert.ToBase64String(signature);
 
-            if (decodedCrypto != decodedSignature) throw new JwtTokenValidationException($"Invalid signature. Expected '{decodedCrypto}' got '{decodedSignature}'.");
-           
+            if (decodedCrypto != decodedSignature)
+            {
+#if DEBUG
+                throw new JwtTokenValidationException($"Invalid signature. Expected '{decodedCrypto}' got '{decodedSignature}'.");
+#else
+                throw new JwtTokenValidationException($"Invalid signature. Got '{decodedSignature}' but different expected.");
+#endif
+            }
+
             T payloadData = JsonConvert.DeserializeObject<T>(payloadJson);
 
             if ((payloadData.ExpirationTime.HasValue)&&(payloadData.ExpirationTime < DateTimeOffset.UtcNow)) throw new JwtTokenValidationException($"Token has expired.");
