@@ -6,7 +6,7 @@ using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Tmatic.Tims3.WebApi.Jwt
+namespace Unidevel.Jwt
 {
     /// <summary>
     /// Provides coding of JWT Tokens. 
